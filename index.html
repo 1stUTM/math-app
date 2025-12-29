@@ -1,0 +1,1944 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Математические формулы</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.4;
+            padding: 10px;
+            min-height: 100vh;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
+        }
+
+        h1 {
+            color: #4fc3f7;
+            margin-bottom: 5px;
+            font-size: 1.6em;
+            text-align: center;
+        }
+
+        .main-nav {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+            padding: 10px;
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            justify-content: center;
+        }
+
+        .main-nav-btn {
+            padding: 12px 28px;
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+            border: 2px solid #444;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .main-nav-btn:hover {
+            background-color: #3d3d3d;
+            transform: translateY(-2px);
+            border-color: #4fc3f7;
+        }
+
+        .main-nav-btn.active {
+            background-color: #1976d2;
+            border-color: #4fc3f7;
+            color: white;
+        }
+
+        .sub-nav {
+            display: none;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #1e1e1e;
+            border-radius: 6px;
+        }
+
+        .sub-nav.active {
+            display: flex;
+        }
+
+        .sub-nav-btn {
+            padding: 8px 16px;
+            background-color: #2a2a2a;
+            color: #e0e0e0;
+            border: 2px solid #3a3a3a;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .sub-nav-btn:hover {
+            background-color: #3a3a3a;
+            border-color: #64b5f6;
+        }
+
+        .sub-nav-btn.active {
+            background-color: #0d47a1;
+            border-color: #64b5f6;
+            color: white;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-bottom: 20px;
+            max-width: 1200px;
+        }
+
+        .formula-card {
+            background: linear-gradient(135deg, #1e1e1e 0%, #2a2a2a 100%);
+            border-radius: 10px;
+            padding: 16px;
+            border: 2px solid #333;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            display: none;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .formula-card.active {
+            display: block;
+        }
+
+        .formula-card:hover {
+            transform: translateY(-3px);
+            border-color: #4fc3f7;
+            box-shadow: 0 4px 18px rgba(79, 195, 247, 0.3);
+        }
+
+        .card-title {
+            color: #bb86fc;
+            margin-bottom: 12px;
+            font-size: 1.1em;
+            font-weight: 700;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #444;
+        }
+
+        .formula-expression {
+            font-family: 'Cambria Math', serif;
+            font-size: 1.4em;
+            color: #ffb74d;
+            margin-bottom: 16px;
+            padding: 12px;
+            background-color: #1a1a1a;
+            border-radius: 6px;
+            text-align: center;
+            border: 2px solid #3a3a3a;
+            font-weight: 600;
+        }
+
+        .input-section {
+            margin-bottom: 14px;
+        }
+
+        .input-label {
+            color: #a5d6a7;
+            font-weight: 700;
+            margin-bottom: 6px;
+            font-size: 0.95em;
+            display: block;
+        }
+
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #2d2d2d;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 2px solid #444;
+        }
+
+        .input-row:focus-within {
+            border-color: #4fc3f7;
+            box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.2);
+        }
+
+        .simple-input {
+            flex: 1;
+            min-width: 150px;
+            padding: 10px;
+            background-color: #1a1a1a;
+            color: #fff;
+            border: 2px solid #555;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1em;
+            font-weight: 600;
+        }
+
+        .simple-input:focus {
+            outline: none;
+            border-color: #4fc3f7;
+        }
+
+        .unit-text {
+            color: #bbb;
+            font-size: 0.9em;
+            white-space: nowrap;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 700;
+            margin-top: 12px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .calculate-btn:hover {
+            background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4);
+        }
+
+        .clear-btn {
+            background: linear-gradient(135deg, #d32f2f 0%, #c62828 100%);
+            margin-top: 8px;
+        }
+
+        .clear-btn:hover {
+            background: linear-gradient(135deg, #c62828 0%, #b71c1c 100%);
+            box-shadow: 0 4px 12px rgba(211, 47, 47, 0.4);
+        }
+
+        .result-container {
+            margin-top: 14px;
+            padding: 12px;
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            border-radius: 6px;
+            border: 2px solid #3949ab;
+            display: none;
+        }
+
+        .result-title {
+            color: #bb86fc;
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+
+        .result-value {
+            font-size: 1.1em;
+            color: #4fc3f7;
+            font-weight: 700;
+            word-break: break-all;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 1024px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 8px;
+                font-size: 13px;
+            }
+
+            h1 {
+                font-size: 1.4em;
+            }
+
+            .main-nav {
+                flex-direction: column;
+                padding: 8px;
+            }
+
+            .main-nav-btn {
+                width: 100%;
+            }
+
+            .formula-card {
+                max-width: 100%;
+            }
+
+            .simple-input {
+                min-width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📐 Математика + Информатика</h1>
+        </header>
+
+        <div class="main-nav">
+            <button class="main-nav-btn active" onclick="showMainCategory('math')">Математика</button>
+            <button class="main-nav-btn" onclick="showMainCategory('informatics')">Информатика</button>
+        </div>
+
+        <div class="sub-nav active" id="math-sub">
+            <button class="sub-nav-btn active" onclick="showSubCategory('math', 'arithmetic')">Арифметика</button>
+            <button class="sub-nav-btn" onclick="showSubCategory('math', 'algebra')">Алгебра</button>
+            <button class="sub-nav-btn" onclick="showSubCategory('math', 'geometry')">Геометрия</button>
+            <button class="sub-nav-btn" onclick="showSubCategory('math', 'trigonometry')">Тригонометрия</button>
+        </div>
+
+        <div class="sub-nav" id="informatics-sub">
+            <button class="sub-nav-btn active" onclick="showSubCategory('informatics', 'numeral')">Системы счисления</button>
+            <button class="sub-nav-btn" onclick="showSubCategory('informatics', 'logic')">Логика</button>
+        </div>
+
+        <div class="content">
+            <!-- АРИФМЕТИКА -->
+            <div class="formula-card active" data-main="math" data-sub="arithmetic">
+                <div class="card-title">Сложение</div>
+                <div class="formula-expression">c = a + b</div>
+                
+                <div class="input-section">
+                    <label class="input-label">Результат (c):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="add-c" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Первое слагаемое (a):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="add-a" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Второе слагаемое (b):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="add-b" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcAdd()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearAdd()">Очистить</button>
+                
+                <div class="result-container" id="add-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <div class="formula-card active" data-main="math" data-sub="arithmetic">
+                <div class="card-title">Вычитание</div>
+                <div class="formula-expression">c = a - b</div>
+                
+                <div class="input-section">
+                    <label class="input-label">Результат (c):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="sub-c" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Уменьшаемое (a):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="sub-a" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Вычитаемое (b):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="sub-b" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcSub()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearSub()">Очистить</button>
+                
+                <div class="result-container" id="sub-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <div class="formula-card active" data-main="math" data-sub="arithmetic">
+                <div class="card-title">Умножение</div>
+                <div class="formula-expression">c = a × b</div>
+                
+                <div class="input-section">
+                    <label class="input-label">Результат (c):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="mul-c" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Множитель (a):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="mul-a" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Множитель (b):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="mul-b" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcMul()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearMul()">Очистить</button>
+                
+                <div class="result-container" id="mul-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <div class="formula-card active" data-main="math" data-sub="arithmetic">
+                <div class="card-title">Деление</div>
+                <div class="formula-expression">c = a ÷ b</div>
+                
+                <div class="input-section">
+                    <label class="input-label">Результат (c):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="div-c" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Делимое (a):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="div-a" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Делитель (b):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="div-b" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcDiv()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearDiv()">Очистить</button>
+                
+                <div class="result-container" id="div-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <div class="formula-card active" data-main="math" data-sub="arithmetic">
+                <div class="card-title">Процент от числа</div>
+                <div class="formula-expression">x = a × p / 100</div>
+                
+                <div class="input-section">
+                    <label class="input-label">Результат (x):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="pct-x" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Число (a):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="pct-a" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Процент (p):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="pct-p" placeholder="0" step="any">
+                        <span class="unit-text">%</span>
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcPercent()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearPercent()">Очистить</button>
+                
+                <div class="result-container" id="pct-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <div class="formula-card active" data-main="math" data-sub="arithmetic">
+                <div class="card-title">Среднее арифметическое</div>
+                <div class="formula-expression">x̄ = (a + b) / 2</div>
+                
+                <div class="input-section">
+                    <label class="input-label">Среднее (x̄):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="avg-x" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Первое число (a):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="avg-a" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Второе число (b):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="avg-b" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcAvg()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearAvg()">Очистить</button>
+                
+                <div class="result-container" id="avg-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <!-- АЛГЕБРА -->
+            <div class="formula-card" data-main="math" data-sub="algebra">
+                <div class="card-title">Квадратное уравнение</div>
+                <div class="formula-expression">ax² + bx + c = 0</div>
+                
+                <div class="input-section">
+                    <label class="input-label">Коэффициент a:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="quad-a" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Коэффициент b:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="quad-b" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Свободный член c:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="quad-c" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcQuad()">Решить</button>
+                <button class="calculate-btn clear-btn" onclick="clearQuad()">Очистить</button>
+                
+                <div class="result-container" id="quad-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <div class="formula-card" data-main="math" data-sub="algebra">
+                <div class="card-title">Степень числа</div>
+                <div class="formula-expression">y = a<sup>n</sup></div>
+                
+                <div class="input-section">
+                    <label class="input-label">Результат (y):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="pow-y" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Основание (a):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="pow-a" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Показатель (n):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="pow-n" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcPower()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearPower()">Очистить</button>
+                
+                <div class="result-container" id="pow-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <div class="formula-card" data-main="math" data-sub="algebra">
+                <div class="card-title">Корень n-ой степени</div>
+                <div class="formula-expression">y = ⁿ√x</div>
+                
+                <div class="input-section">
+                    <label class="input-label">Корень (y):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="root-y" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Подкоренное (x):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="root-x" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Степень (n):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="root-n" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcRoot()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearRoot()">Очистить</button>
+                
+                <div class="result-container" id="root-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <div class="formula-card" data-main="math" data-sub="algebra">
+                <div class="card-title">Логарифм</div>
+                <div class="formula-expression">log<sub>a</sub>(x) = b</div>
+                
+                <div class="input-section">
+                    <label class="input-label">Результат (b):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="log-b" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Основание (a):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="log-a" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Число (x):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="log-x" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcLog()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearLog()">Очистить</button>
+                
+                <div class="result-container" id="log-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <!-- ГЕОМЕТРИЯ -->
+            <div class="formula-card" data-main="math" data-sub="geometry">
+                <div class="card-title">Площадь треугольника</div>
+                <div class="formula-expression">S = (a × h) / 2</div>
+                
+                <div class="input-section">
+                    <label class="input-label">Площадь (S), м²:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="tri-s" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Основание (a), м:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="tri-a" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Высота (h), м:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="tri-h" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcTri()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearTri()">Очистить</button>
+                
+                <div class="result-container" id="tri-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <div class="formula-card" data-main="math" data-sub="geometry">
+                <div class="card-title">Теорема Пифагора</div>
+                <div class="formula-expression">c² = a² + b²</div>
+                
+                <div class="input-section">
+                    <label class="input-label">Гипотенуза (c), м:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="pyth-c" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Катет (a), м:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="pyth-a" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Катет (b), м:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="pyth-b" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcPyth()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearPyth()">Очистить</button>
+                
+                <div class="result-container" id="pyth-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <div class="formula-card" data-main="math" data-sub="geometry">
+                <div class="card-title">Площадь прямоугольника</div>
+                <div class="formula-expression">S = a × b</div>
+                
+                <div class="input-section">
+                    <label class="input-label">Площадь (S), м²:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="rect-s" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Длина (a), м:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="rect-a" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Ширина (b), м:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="rect-b" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcRect()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearRect()">Очистить</button>
+                
+                <div class="result-container" id="rect-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <div class="formula-card" data-main="math" data-sub="geometry">
+                <div class="card-title">Площадь круга</div>
+                <div class="formula-expression">S = πr²</div>
+                
+                <div class="input-section">
+                    <label class="input-label">Площадь (S), м²:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="circ-s" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Радиус (r), м:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="circ-r" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcCirc()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearCirc()">Очистить</button>
+                
+                <div class="result-container" id="circ-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <div class="formula-card" data-main="math" data-sub="geometry">
+                <div class="card-title">Длина окружности</div>
+                <div class="formula-expression">L = 2πr</div>
+                
+                <div class="input-section">
+                    <label class="input-label">Длина (L), м:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="circl-l" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Радиус (r), м:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="circl-r" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcCircL()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearCircL()">Очистить</button>
+                
+                <div class="result-container" id="circl-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <div class="formula-card" data-main="math" data-sub="geometry">
+                <div class="card-title">Объём куба</div>
+                <div class="formula-expression">V = a³</div>
+                
+                <div class="input-section">
+                    <label class="input-label">Объём (V), м³:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="cube-v" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Сторона (a), м:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="cube-a" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcCube()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearCube()">Очистить</button>
+                
+                <div class="result-container" id="cube-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <!-- ТРИГОНОМЕТРИЯ -->
+            <div class="formula-card" data-main="math" data-sub="trigonometry">
+                <div class="card-title">Синус</div>
+                <div class="formula-expression">sin(α)</div>
+                
+                <div class="input-section">
+                    <label class="input-label">Угол (α), градусы:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="sin-a" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcSin()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearSin()">Очистить</button>
+                
+                <div class="result-container" id="sin-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <div class="formula-card" data-main="math" data-sub="trigonometry">
+                <div class="card-title">Косинус</div>
+                <div class="formula-expression">cos(α)</div>
+                
+                <div class="input-section">
+                    <label class="input-label">Угол (α), градусы:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="cos-a" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcCos()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearCos()">Очистить</button>
+                
+                <div class="result-container" id="cos-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <div class="formula-card" data-main="math" data-sub="trigonometry">
+                <div class="card-title">Тангенс</div>
+                <div class="formula-expression">tan(α)</div>
+                
+                <div class="input-section">
+                    <label class="input-label">Угол (α), градусы:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="tan-a" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcTan()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearTan()">Очистить</button>
+                
+                <div class="result-container" id="tan-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <div class="formula-card" data-main="math" data-sub="trigonometry">
+                <div class="card-title">Котангенс</div>
+                <div class="formula-expression">cot(α)</div>
+                
+                <div class="input-section">
+                    <label class="input-label">Угол (α), градусы:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="cot-a" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcCot()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearCot()">Очистить</button>
+                
+                <div class="result-container" id="cot-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <div class="formula-card" data-main="math" data-sub="trigonometry">
+                <div class="card-title">Арксинус</div>
+                <div class="formula-expression">arcsin(x)</div>
+                
+                <div class="input-section">
+                    <label class="input-label">Значение (x) от -1 до 1:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="asin-x" placeholder="0" step="any" min="-1" max="1">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcAsin()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearAsin()">Очистить</button>
+                
+                <div class="result-container" id="asin-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <div class="formula-card" data-main="math" data-sub="trigonometry">
+                <div class="card-title">Арккосинус</div>
+                <div class="formula-expression">arccos(x)</div>
+                
+                <div class="input-section">
+                    <label class="input-label">Значение (x) от -1 до 1:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="acos-x" placeholder="0" step="any" min="-1" max="1">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcAcos()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearAcos()">Очистить</button>
+                
+                <div class="result-container" id="acos-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <div class="formula-card" data-main="math" data-sub="trigonometry">
+                <div class="card-title">Арктангенс</div>
+                <div class="formula-expression">arctan(x)</div>
+                
+                <div class="input-section">
+                    <label class="input-label">Значение (x):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="atan-x" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcAtan()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearAtan()">Очистить</button>
+                
+                <div class="result-container" id="atan-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <!-- ИНФОРМАТИКА -->
+            <div class="formula-card active" data-main="informatics" data-sub="numeral">
+                <div class="card-title">Перевод систем счисления</div>
+                <div class="formula-expression">X<sub>n</sub> → Y<sub>m</sub></div>
+                
+                <div class="input-section">
+                    <label class="input-label">Число:</label>
+                    <div class="input-row">
+                        <input type="text" class="simple-input" id="conv-num" placeholder="Введите число">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Из системы (2-36):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="conv-from" placeholder="10" min="2" max="36">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">В систему (2-36):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="conv-to" placeholder="2" min="2" max="36">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcConv()">Перевести</button>
+                <button class="calculate-btn clear-btn" onclick="clearConv()">Очистить</button>
+                
+                <div class="result-container" id="conv-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <div class="formula-card active" data-main="informatics" data-sub="numeral">
+                <div class="card-title">Объём информации</div>
+                <div class="formula-expression">1 байт = 8 бит</div>
+                
+                <div class="input-section">
+                    <label class="input-label">Биты:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="info-bits" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">Байты:</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="info-bytes" placeholder="0" step="any">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcInfo()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearInfo()">Очистить</button>
+                
+                <div class="result-container" id="info-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <div class="formula-card active" data-main="informatics" data-sub="logic">
+                <div class="card-title">Логическое И (AND)</div>
+                <div class="formula-expression">C = A ∧ B</div>
+                
+                <div class="input-section">
+                    <label class="input-label">A (0 или 1):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="and-a" placeholder="0" min="0" max="1">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">B (0 или 1):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="and-b" placeholder="0" min="0" max="1">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcAnd()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearAnd()">Очистить</button>
+                
+                <div class="result-container" id="and-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <div class="formula-card active" data-main="informatics" data-sub="logic">
+                <div class="card-title">Логическое ИЛИ (OR)</div>
+                <div class="formula-expression">C = A ∨ B</div>
+                
+                <div class="input-section">
+                    <label class="input-label">A (0 или 1):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="or-a" placeholder="0" min="0" max="1">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">B (0 или 1):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="or-b" placeholder="0" min="0" max="1">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcOr()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearOr()">Очистить</button>
+                
+                <div class="result-container" id="or-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <div class="formula-card active" data-main="informatics" data-sub="logic">
+                <div class="card-title">Логическое НЕ (NOT)</div>
+                <div class="formula-expression">B = ¬A</div>
+                
+                <div class="input-section">
+                    <label class="input-label">A (0 или 1):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="not-a" placeholder="0" min="0" max="1">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcNot()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearNot()">Очистить</button>
+                
+                <div class="result-container" id="not-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+
+            <div class="formula-card active" data-main="informatics" data-sub="logic">
+                <div class="card-title">Исключающее ИЛИ (XOR)</div>
+                <div class="formula-expression">C = A ⊕ B</div>
+                
+                <div class="input-section">
+                    <label class="input-label">A (0 или 1):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="xor-a" placeholder="0" min="0" max="1">
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label class="input-label">B (0 или 1):</label>
+                    <div class="input-row">
+                        <input type="number" class="simple-input" id="xor-b" placeholder="0" min="0" max="1">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcXor()">Вычислить</button>
+                <button class="calculate-btn clear-btn" onclick="clearXor()">Очистить</button>
+                
+                <div class="result-container" id="xor-result">
+                    <div class="result-title">Результат:</div>
+                    <div class="result-value"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+        
+        let currentMain = 'math';
+        let currentSub = 'arithmetic';
+
+        function showMainCategory(category) {
+            currentMain = category;
+            
+            document.querySelectorAll('.main-nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            document.querySelectorAll('.sub-nav').forEach(nav => {
+                nav.classList.remove('active');
+            });
+            document.getElementById(category + '-sub').classList.add('active');
+            
+            const firstBtn = document.querySelector(`#${category}-sub .sub-nav-btn`);
+            if (firstBtn) {
+                const match = firstBtn.getAttribute('onclick').match(/'([^']+)'/g);
+                if (match && match.length >= 2) {
+                    currentSub = match[1].replace(/'/g, '');
+                }
+                
+                document.querySelectorAll('.sub-nav-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                firstBtn.classList.add('active');
+            }
+            
+            updateCards();
+        }
+
+        function showSubCategory(main, sub) {
+            currentMain = main;
+            currentSub = sub;
+            
+            document.querySelectorAll(`#${main}-sub .sub-nav-btn`).forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            updateCards();
+        }
+
+        function updateCards() {
+            document.querySelectorAll('.formula-card').forEach(card => {
+                if (card.dataset.main === currentMain && card.dataset.sub === currentSub) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
+            });
+        }
+
+        function getVal(id) {
+            const value = parseFloat(document.getElementById(id).value);
+            return isNaN(value) ? 0 : value;
+        }
+
+        function show(id, msg) {
+            const el = document.getElementById(id);
+            el.querySelector('.result-value').innerHTML = msg;
+            el.style.display = 'block';
+        }
+
+        function hide(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function fmt(v) {
+            if (isNaN(v)) return "Ошибка";
+            if (!isFinite(v)) return "∞";
+            return parseFloat(v.toFixed(10)).toString();
+        }
+
+        function beautify(v) {
+            const tolerance = 0.0001;
+            const exactValues = [
+                { val: 0, display: '0' },
+                { val: 0.5, display: '1/2' },
+                { val: 1, display: '1' },
+                { val: -1, display: '-1' },
+                { val: Math.sqrt(2) / 2, display: '√2/2' },
+                { val: -Math.sqrt(2) / 2, display: '-√2/2' },
+                { val: Math.sqrt(3) / 2, display: '√3/2' },
+                { val: -Math.sqrt(3) / 2, display: '-√3/2' },
+                { val: Math.sqrt(2), display: '√2' },
+                { val: -Math.sqrt(2), display: '-√2' },
+                { val: Math.sqrt(3), display: '√3' },
+                { val: -Math.sqrt(3), display: '-√3' },
+                { val: 1 / Math.sqrt(2), display: '√2/2' },
+                { val: -1 / Math.sqrt(2), display: '-√2/2' },
+                { val: 1 / Math.sqrt(3), display: '√3/3' },
+                { val: -1 / Math.sqrt(3), display: '-√3/3' },
+                { val: Math.sqrt(3) / 3, display: '√3/3' },
+                { val: -Math.sqrt(3) / 3, display: '-√3/3' },
+                { val: 2, display: '2' },
+                { val: -2, display: '-2' }
+            ];
+
+            for (let item of exactValues) {
+                if (Math.abs(v - item.val) < tolerance) {
+                    return item.display;
+                }
+            }
+
+            if (v > 0) {
+                const squared = v * v;
+                const roundedSquared = Math.round(squared);
+                if (Math.abs(squared - roundedSquared) < tolerance && roundedSquared <= 100) {
+                    return `√${roundedSquared}`;
+                }
+            }
+
+            return fmt(v);
+        }
+
+        function getTrig(angle, func) {
+            angle = angle % 360;
+            if (angle < 0) angle += 360;
+
+            const trigTable = {
+                0: { sin: '0', cos: '1', tan: '0', cot: '∞' },
+                30: { sin: '1/2', cos: '√3/2', tan: '√3/3', cot: '√3' },
+                45: { sin: '√2/2', cos: '√2/2', tan: '1', cot: '1' },
+                60: { sin: '√3/2', cos: '1/2', tan: '√3', cot: '√3/3' },
+                90: { sin: '1', cos: '0', tan: '∞', cot: '0' },
+                120: { sin: '√3/2', cos: '-1/2', tan: '-√3', cot: '-√3/3' },
+                135: { sin: '√2/2', cos: '-√2/2', tan: '-1', cot: '-1' },
+                150: { sin: '1/2', cos: '-√3/2', tan: '-√3/3', cot: '-√3' },
+                180: { sin: '0', cos: '-1', tan: '0', cot: '∞' },
+                210: { sin: '-1/2', cos: '-√3/2', tan: '√3/3', cot: '√3' },
+                225: { sin: '-√2/2', cos: '-√2/2', tan: '1', cot: '1' },
+                240: { sin: '-√3/2', cos: '-1/2', tan: '√3', cot: '√3/3' },
+                270: { sin: '-1', cos: '0', tan: '∞', cot: '0' },
+                300: { sin: '-√3/2', cos: '1/2', tan: '-√3', cot: '-√3/3' },
+                315: { sin: '-√2/2', cos: '√2/2', tan: '-1', cot: '-1' },
+                330: { sin: '-1/2', cos: '√3/2', tan: '-√3/3', cot: '-√3' },
+                360: { sin: '0', cos: '1', tan: '0', cot: '∞' }
+            };
+
+            return trigTable[angle] ? trigTable[angle][func] || null : null;
+        }
+
+        function calcAdd() {
+            const c = getVal('add-c');
+            const a = getVal('add-a');
+            const b = getVal('add-b');
+
+            if (c === 0 && a !== 0 && b !== 0) {
+                show('add-result', `c = ${fmt(a + b)}`);
+            } else if (a === 0 && c !== 0 && b !== 0) {
+                show('add-result', `a = ${fmt(c - b)}`);
+            } else if (b === 0 && c !== 0 && a !== 0) {
+                show('add-result', `b = ${fmt(c - a)}`);
+            } else {
+                show('add-result', 'Оставь одно поле пустым');
+            }
+        }
+
+        function clearAdd() {
+            ['add-c', 'add-a', 'add-b'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            hide('add-result');
+        }
+
+        function calcSub() {
+            const c = getVal('sub-c');
+            const a = getVal('sub-a');
+            const b = getVal('sub-b');
+
+            if (c === 0 && a !== 0 && b !== 0) {
+                show('sub-result', `c = ${fmt(a - b)}`);
+            } else if (a === 0 && c !== 0 && b !== 0) {
+                show('sub-result', `a = ${fmt(c + b)}`);
+            } else if (b === 0 && c !== 0 && a !== 0) {
+                show('sub-result', `b = ${fmt(a - c)}`);
+            } else {
+                show('sub-result', 'Оставь одно поле пустым');
+            }
+        }
+
+        function clearSub() {
+            ['sub-c', 'sub-a', 'sub-b'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            hide('sub-result');
+        }
+
+        function calcMul() {
+            const c = getVal('mul-c');
+            const a = getVal('mul-a');
+            const b = getVal('mul-b');
+
+            if (c === 0 && a !== 0 && b !== 0) {
+                show('mul-result', `c = ${fmt(a * b)}`);
+            } else if (a === 0 && c !== 0 && b !== 0) {
+                show('mul-result', `a = ${fmt(c / b)}`);
+            } else if (b === 0 && c !== 0 && a !== 0) {
+                show('mul-result', `b = ${fmt(c / a)}`);
+            } else {
+                show('mul-result', 'Оставь одно поле пустым');
+            }
+        }
+
+        function clearMul() {
+            ['mul-c', 'mul-a', 'mul-b'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            hide('mul-result');
+        }
+
+        function calcDiv() {
+            const c = getVal('div-c');
+            const a = getVal('div-a');
+            const b = getVal('div-b');
+
+            if (c === 0 && a !== 0 && b !== 0) {
+                show('div-result', `c = ${fmt(a / b)}`);
+            } else if (a === 0 && c !== 0 && b !== 0) {
+                show('div-result', `a = ${fmt(c * b)}`);
+            } else if (b === 0 && c !== 0 && a !== 0) {
+                show('div-result', `b = ${fmt(a / c)}`);
+            } else {
+                show('div-result', 'Оставь одно поле пустым');
+            }
+        }
+
+        function clearDiv() {
+            ['div-c', 'div-a', 'div-b'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            hide('div-result');
+        }
+
+        function calcPercent() {
+            const x = getVal('pct-x');
+            const a = getVal('pct-a');
+            const p = getVal('pct-p');
+
+            if (x === 0 && a !== 0 && p !== 0) {
+                show('pct-result', `x = ${fmt(a * p / 100)}`);
+            } else if (a === 0 && x !== 0 && p !== 0) {
+                show('pct-result', `a = ${fmt(x * 100 / p)}`);
+            } else if (p === 0 && x !== 0 && a !== 0) {
+                show('pct-result', `p = ${fmt(x * 100 / a)}%`);
+            } else {
+                show('pct-result', 'Оставь одно поле пустым');
+            }
+        }
+
+        function clearPercent() {
+            ['pct-x', 'pct-a', 'pct-p'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            hide('pct-result');
+        }
+
+        function calcAvg() {
+            const x = getVal('avg-x');
+            const a = getVal('avg-a');
+            const b = getVal('avg-b');
+
+            if (x === 0 && a !== 0 && b !== 0) {
+                show('avg-result', `x̄ = ${fmt((a + b) / 2)}`);
+            } else if (a === 0 && x !== 0 && b !== 0) {
+                show('avg-result', `a = ${fmt(2 * x - b)}`);
+            } else if (b === 0 && x !== 0 && a !== 0) {
+                show('avg-result', `b = ${fmt(2 * x - a)}`);
+            } else {
+                show('avg-result', 'Оставь одно поле пустым');
+            }
+        }
+
+        function clearAvg() {
+            ['avg-x', 'avg-a', 'avg-b'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            hide('avg-result');
+        }
+
+        function calcQuad() {
+            const a = getVal('quad-a');
+            const b = getVal('quad-b');
+            const c = getVal('quad-c');
+
+            if (a === 0) {
+                show('quad-result', 'a не может быть 0');
+                return;
+            }
+
+            const discriminant = b * b - 4 * a * c;
+
+            if (discriminant < 0) {
+                show('quad-result', 'Нет действительных корней (D < 0)');
+            } else if (discriminant === 0) {
+                const x = -b / (2 * a);
+                show('quad-result', `x = ${beautify(x)}`);
+            } else {
+                const x1 = (-b + Math.sqrt(discriminant)) / (2 * a);
+                const x2 = (-b - Math.sqrt(discriminant)) / (2 * a);
+                show('quad-result', `x₁ = ${beautify(x1)}<br>x₂ = ${beautify(x2)}`);
+            }
+        }
+
+        function clearQuad() {
+            ['quad-a', 'quad-b', 'quad-c'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            hide('quad-result');
+        }
+
+        function calcPower() {
+            const y = getVal('pow-y');
+            const a = getVal('pow-a');
+            const n = getVal('pow-n');
+
+            if (y === 0 && a !== 0 && n !== 0) {
+                show('pow-result', `y = ${beautify(Math.pow(a, n))}`);
+            } else if (a === 0 && y !== 0 && n !== 0) {
+                show('pow-result', `a = ${beautify(Math.pow(y, 1 / n))}`);
+            } else if (n === 0 && y !== 0 && a > 0 && a !== 1) {
+                show('pow-result', `n = ${fmt(Math.log(y) / Math.log(a))}`);
+            } else {
+                show('pow-result', 'Оставь одно поле пустым');
+            }
+        }
+
+        function clearPower() {
+            ['pow-y', 'pow-a', 'pow-n'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            hide('pow-result');
+        }
+
+        function calcRoot() {
+            const y = getVal('root-y');
+            const x = getVal('root-x');
+            const n = getVal('root-n');
+
+            if (y === 0 && x !== 0 && n !== 0) {
+                show('root-result', `y = ${beautify(Math.pow(x, 1 / n))}`);
+            } else if (x === 0 && y !== 0 && n !== 0) {
+                show('root-result', `x = ${beautify(Math.pow(y, n))}`);
+            } else if (n === 0 && y !== 0 && x !== 0 && y > 0 && y !== 1) {
+                show('root-result', `n = ${fmt(Math.log(x) / Math.log(y))}`);
+            } else {
+                show('root-result', 'Оставь одно поле пустым');
+            }
+        }
+
+        function clearRoot() {
+            ['root-y', 'root-x', 'root-n'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            hide('root-result');
+        }
+
+        function calcLog() {
+            const b = getVal('log-b');
+            const a = getVal('log-a');
+            const x = getVal('log-x');
+
+            if (b === 0 && a > 0 && a !== 1 && x > 0) {
+                show('log-result', `b = ${fmt(Math.log(x) / Math.log(a))}`);
+            } else if (a === 0 && b !== 0 && x > 0) {
+                show('log-result', `a = ${fmt(Math.pow(x, 1 / b))}`);
+            } else if (x === 0 && a > 0 && a !== 1 && b !== 0) {
+                show('log-result', `x = ${fmt(Math.pow(a, b))}`);
+            } else {
+                show('log-result', 'Проверь данные (a>0, a≠1, x>0)');
+            }
+        }
+
+        function clearLog() {
+            ['log-b', 'log-a', 'log-x'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            hide('log-result');
+        }
+
+        function calcTri() {
+            const s = getVal('tri-s');
+            const a = getVal('tri-a');
+            const h = getVal('tri-h');
+
+            if (s === 0 && a !== 0 && h !== 0) {
+                show('tri-result', `S = ${beautify(a * h / 2)} м²`);
+            } else if (a === 0 && s !== 0 && h !== 0) {
+                show('tri-result', `a = ${beautify(2 * s / h)} м`);
+            } else if (h === 0 && s !== 0 && a !== 0) {
+                show('tri-result', `h = ${beautify(2 * s / a)} м`);
+            } else {
+                show('tri-result', 'Оставь одно поле пустым');
+            }
+        }
+
+        function clearTri() {
+            ['tri-s', 'tri-a', 'tri-h'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            hide('tri-result');
+        }
+
+        function calcPyth() {
+            const c = getVal('pyth-c');
+            const a = getVal('pyth-a');
+            const b = getVal('pyth-b');
+
+            if (c === 0 && a !== 0 && b !== 0) {
+                show('pyth-result', `c = ${beautify(Math.sqrt(a * a + b * b))} м`);
+            } else if (a === 0 && c !== 0 && b !== 0) {
+                show('pyth-result', `a = ${beautify(Math.sqrt(c * c - b * b))} м`);
+            } else if (b === 0 && c !== 0 && a !== 0) {
+                show('pyth-result', `b = ${beautify(Math.sqrt(c * c - a * a))} м`);
+            } else {
+                show('pyth-result', 'Оставь одно поле пустым');
+            }
+        }
+
+        function clearPyth() {
+            ['pyth-c', 'pyth-a', 'pyth-b'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            hide('pyth-result');
+        }
+
+        function calcRect() {
+            const s = getVal('rect-s');
+            const a = getVal('rect-a');
+            const b = getVal('rect-b');
+
+            if (s === 0 && a !== 0 && b !== 0) {
+                show('rect-result', `S = ${beautify(a * b)} м²`);
+            } else if (a === 0 && s !== 0 && b !== 0) {
+                show('rect-result', `a = ${beautify(s / b)} м`);
+            } else if (b === 0 && s !== 0 && a !== 0) {
+                show('rect-result', `b = ${beautify(s / a)} м`);
+            } else {
+                show('rect-result', 'Оставь одно поле пустым');
+            }
+        }
+
+        function clearRect() {
+            ['rect-s', 'rect-a', 'rect-b'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            hide('rect-result');
+        }
+
+        function calcCirc() {
+            const s = getVal('circ-s');
+            const r = getVal('circ-r');
+
+            if (s === 0 && r !== 0) {
+                show('circ-result', `S = ${beautify(Math.PI * r * r)} м²`);
+            } else if (r === 0 && s !== 0) {
+                show('circ-result', `r = ${beautify(Math.sqrt(s / Math.PI))} м`);
+            } else {
+                show('circ-result', 'Оставь одно поле пустым');
+            }
+        }
+
+        function clearCirc() {
+            ['circ-s', 'circ-r'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            hide('circ-result');
+        }
+
+        function calcCircL() {
+            const l = getVal('circl-l');
+            const r = getVal('circl-r');
+
+            if (l === 0 && r !== 0) {
+                show('circl-result', `L = ${beautify(2 * Math.PI * r)} м`);
+            } else if (r === 0 && l !== 0) {
+                show('circl-result', `r = ${beautify(l / (2 * Math.PI))} м`);
+            } else {
+                show('circl-result', 'Оставь одно поле пустым');
+            }
+        }
+
+        function clearCircL() {
+            ['circl-l', 'circl-r'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            hide('circl-result');
+        }
+
+        function calcCube() {
+            const v = getVal('cube-v');
+            const a = getVal('cube-a');
+
+            if (v === 0 && a !== 0) {
+                show('cube-result', `V = ${beautify(Math.pow(a, 3))} м³`);
+            } else if (a === 0 && v !== 0) {
+                show('cube-result', `a = ${beautify(Math.pow(v, 1 / 3))} м`);
+            } else {
+                show('cube-result', 'Оставь одно поле пустым');
+            }
+        }
+
+        function clearCube() {
+            ['cube-v', 'cube-a'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            hide('cube-result');
+        }
+
+        function calcSin() {
+            const angle = getVal('sin-a');
+            const radians = angle * Math.PI / 180;
+            const result = Math.sin(radians);
+            const exactValue = getTrig(angle, 'sin');
+
+            if (exactValue) {
+                show('sin-result', `sin(${fmt(angle)}°) = ${exactValue} ≈ ${fmt(result)}`);
+            } else {
+                show('sin-result', `sin(${fmt(angle)}°) = ${beautify(result)}`);
+            }
+        }
+
+        function clearSin() {
+            document.getElementById('sin-a').value = '';
+            hide('sin-result');
+        }
+
+        function calcCos() {
+            const angle = getVal('cos-a');
+            const radians = angle * Math.PI / 180;
+            const result = Math.cos(radians);
+            const exactValue = getTrig(angle, 'cos');
+
+            if (exactValue) {
+                show('cos-result', `cos(${fmt(angle)}°) = ${exactValue} ≈ ${fmt(result)}`);
+            } else {
+                show('cos-result', `cos(${fmt(angle)}°) = ${beautify(result)}`);
+            }
+        }
+
+        function clearCos() {
+            document.getElementById('cos-a').value = '';
+            hide('cos-result');
+        }
+
+        function calcTan() {
+            const angle = getVal('tan-a');
+            const radians = angle * Math.PI / 180;
+            const result = Math.tan(radians);
+            const exactValue = getTrig(angle, 'tan');
+
+            if (exactValue) {
+                if (exactValue === '∞') {
+                    show('tan-result', `tan(${fmt(angle)}°) = не определён (∞)`);
+                } else {
+                    show('tan-result', `tan(${fmt(angle)}°) = ${exactValue} ≈ ${fmt(result)}`);
+                }
+            } else {
+                show('tan-result', `tan(${fmt(angle)}°) = ${beautify(result)}`);
+            }
+        }
+
+        function clearTan() {
+            document.getElementById('tan-a').value = '';
+            hide('tan-result');
+        }
+
+        function calcCot() {
+            const angle = getVal('cot-a');
+            const radians = angle * Math.PI / 180;
+            const result = 1 / Math.tan(radians);
+            const exactValue = getTrig(angle, 'cot');
+
+            if (exactValue) {
+                if (exactValue === '∞') {
+                    show('cot-result', `cot(${fmt(angle)}°) = не определён (∞)`);
+                } else if (exactValue === '0') {
+                    show('cot-result', `cot(${fmt(angle)}°) = 0`);
+                } else {
+                    show('cot-result', `cot(${fmt(angle)}°) = ${exactValue} ≈ ${fmt(result)}`);
+                }
+            } else {
+                show('cot-result', `cot(${fmt(angle)}°) = ${beautify(result)}`);
+            }
+        }
+
+        function clearCot() {
+            document.getElementById('cot-a').value = '';
+            hide('cot-result');
+        }
+
+        function calcAsin() {
+            const x = getVal('asin-x');
+
+            if (x < -1 || x > 1) {
+                show('asin-result', 'x должен быть от -1 до 1');
+                return;
+            }
+
+            const result = Math.asin(x) * 180 / Math.PI;
+            show('asin-result', `arcsin(${beautify(x)}) = ${fmt(result)}°`);
+        }
+
+        function clearAsin() {
+            document.getElementById('asin-x').value = '';
+            hide('asin-result');
+        }
+
+        function calcAcos() {
+            const x = getVal('acos-x');
+
+            if (x < -1 || x > 1) {
+                show('acos-result', 'x должен быть от -1 до 1');
+                return;
+            }
+
+            const result = Math.acos(x) * 180 / Math.PI;
+            show('acos-result', `arccos(${beautify(x)}) = ${fmt(result)}°`);
+        }
+
+        function clearAcos() {
+            document.getElementById('acos-x').value = '';
+            hide('acos-result');
+        }
+
+        function calcAtan() {
+            const x = getVal('atan-x');
+            const result = Math.atan(x) * 180 / Math.PI;
+            show('atan-result', `arctan(${beautify(x)}) = ${fmt(result)}°`);
+        }
+
+        function clearAtan() {
+            document.getElementById('atan-x').value = '';
+            hide('atan-result');
+        }
+
+        function calcConv() {
+            const num = document.getElementById('conv-num').value.trim();
+            const from = parseInt(document.getElementById('conv-from').value) || 10;
+            const to = parseInt(document.getElementById('conv-to').value) || 2;
+
+            if (!num) {
+                show('conv-result', 'Введи число');
+                return;
+            }
+
+            if (from < 2 || from > 36 || to < 2 || to > 36) {
+                show('conv-result', 'Основание от 2 до 36');
+                return;
+            }
+
+            try {
+                const decimal = parseInt(num, from);
+                if (isNaN(decimal)) {
+                    show('conv-result', 'Некорректное число');
+                    return;
+                }
+                const result = decimal.toString(to).toUpperCase();
+                show('conv-result', `${num}<sub>${from}</sub> = ${result}<sub>${to}</sub> = ${decimal}<sub>10</sub>`);
+            } catch (e) {
+                show('conv-result', 'Ошибка');
+            }
+        }
+
+        function clearConv() {
+            document.getElementById('conv-num').value = '';
+            document.getElementById('conv-from').value = '';
+            document.getElementById('conv-to').value = '';
+            hide('conv-result');
+        }
+
+        function calcInfo() {
+            const bits = getVal('info-bits');
+            const bytes = getVal('info-bytes');
+
+            if (bits === 0 && bytes !== 0) {
+                show('info-result', `${fmt(bytes)} байт = ${fmt(bytes * 8)} бит`);
+            } else if (bytes === 0 && bits !== 0) {
+                show('info-result', `${fmt(bits)} бит = ${fmt(bits / 8)} байт`);
+            } else {
+                show('info-result', 'Оставь одно поле пустым');
+            }
+        }
+
+        function clearInfo() {
+            ['info-bits', 'info-bytes'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            hide('info-result');
+        }
+
+        function calcAnd() {
+            const a = parseInt(document.getElementById('and-a').value) || 0;
+            const b = parseInt(document.getElementById('and-b').value) || 0;
+
+            if ((a !== 0 && a !== 1) || (b !== 0 && b !== 1)) {
+                show('and-result', 'Только 0 или 1');
+                return;
+            }
+
+            const result = (a && b) ? 1 : 0;
+            show('and-result', `${a} ∧ ${b} = ${result}<br><br>Таблица:<br>0∧0=0 | 0∧1=0<br>1∧0=0 | 1∧1=1`);
+        }
+
+        function clearAnd() {
+            document.getElementById('and-a').value = '';
+            document.getElementById('and-b').value = '';
+            hide('and-result');
+        }
+
+        function calcOr() {
+            const a = parseInt(document.getElementById('or-a').value) || 0;
+            const b = parseInt(document.getElementById('or-b').value) || 0;
+
+            if ((a !== 0 && a !== 1) || (b !== 0 && b !== 1)) {
+                show('or-result', 'Только 0 или 1');
+                return;
+            }
+
+            const result = (a || b) ? 1 : 0;
+            show('or-result', `${a} ∨ ${b} = ${result}<br><br>Таблица:<br>0∨0=0 | 0∨1=1<br>1∨0=1 | 1∨1=1`);
+        }
+
+        function clearOr() {
+            document.getElementById('or-a').value = '';
+            document.getElementById('or-b').value = '';
+            hide('or-result');
+        }
+
+        function calcNot() {
+            const a = parseInt(document.getElementById('not-a').value) || 0;
+
+            if (a !== 0 && a !== 1) {
+                show('not-result', 'Только 0 или 1');
+                return;
+            }
+
+            const result = a ? 0 : 1;
+            show('not-result', `¬${a} = ${result}<br><br>Таблица:<br>¬0=1 | ¬1=0`);
+        }
+
+        function clearNot() {
+            document.getElementById('not-a').value = '';
+            hide('not-result');
+        }
+
+        function calcXor() {
+            const a = parseInt(document.getElementById('xor-a').value) || 0;
+            const b = parseInt(document.getElementById('xor-b').value) || 0;
+
+            if ((a !== 0 && a !== 1) || (b !== 0 && b !== 1)) {
+                show('xor-result', 'Только 0 или 1');
+                return;
+            }
+
+            const result = (a !== b) ? 1 : 0;
+            show('xor-result', `${a} ⊕ ${b} = ${result}<br><br>Таблица:<br>0⊕0=0 | 0⊕1=1<br>1⊕0=1 | 1⊕1=0`);
+        }
+
+        function clearXor() {
+            document.getElementById('xor-a').value = '';
+            document.getElementById('xor-b').value = '';
+            hide('xor-result');
+        }
+
+        window.addEventListener('load', function() {
+            updateCards();
+        });
+    </script>
+</body>
+</html>
