@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Математические формулы</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            color: #000000;
+            padding: 10px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            padding: 20px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        .categories {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            padding: 5px 0;
+        }
+        .category-btn {
+            padding: 10px 20px;
+            border: none;
+            background: #3390ec;
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+        .category-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .formulas-section {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .formulas-section.active {
+            display: flex;
+        }
+        .formula-card {
+            background: #f5f5f5;
+            border-radius: 15px;
+            padding: 20px;
+        }
+        .formula-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .formula-text {
+            font-family: 'Courier New', monospace;
+            background: rgba(102, 126, 234, 0.1);
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+        .inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        input {
+            padding: 12px;
+            border: 2px solid #dddddd;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        .calc-btn {
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+        }
+        .result:not(:empty) {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📐 Математические формулы</h1>
+        </header>
+
+        <div class="categories">
+            <button class="category-btn active" onclick="showCategory('geometry')">Геометрия</button>
+            <button class="category-btn" onclick="showCategory('algebra')">Алгебра</button>
+            <button class="category-btn" onclick="showCategory('trigonometry')">Тригонометрия</button>
+            <button class="category-btn" onclick="showCategory('calculator')">Калькулятор</button>
+        </div>
+
+        <!-- Геометрия -->
+        <div class="formulas-section active" id="geometry">
+            <div class="formula-card">
+                <h3>🔺 Площадь треугольника</h3>
+                <p class="formula-text">S = (a × h) / 2</p>
+                <div class="inputs">
+                    <input type="number" placeholder="Основание (a)" id="tri-a">
+                    <input type="number" placeholder="Высота (h)" id="tri-h">
+                    <button class="calc-btn" onclick="calcTriangle()">Вычислить</button>
+                </div>
+                <div class="result" id="tri-result"></div>
+            </div>
+
+            <div class="formula-card">
+                <h3>⭕ Площадь круга</h3>
+                <p class="formula-text">S = π × r²</p>
+                <div class="inputs">
+                    <input type="number" placeholder="Радиус (r)" id="circle-r">
+                    <button class="calc-btn" onclick="calcCircle()">Вычислить</button>
+                </div>
+                <div class="result" id="circle-result"></div>
+            </div>
+
+            <div class="formula-card">
+                <h3>📐 Теорема Пифагора</h3>
+                <p class="formula-text">c = √(a² + b²)</p>
+                <div class="inputs">
+                    <input type="number" placeholder="Катет a" id="pyth-a">
+                    <input type="number" placeholder="Катет b" id="pyth-b">
+                    <button class="calc-btn" onclick="calcPythagoras()">Вычислить</button>
+                </div>
+                <div class="result" id="pyth-result"></div>
+            </div>
+        </div>
+
+        <!-- Алгебра -->
+        <div class="formulas-section" id="algebra">
+            <div class="formula-card">
+                <h3>📊 Квадратное уравнение</h3>
+                <p class="formula-text">ax² + bx + c = 0</p>
+                <div class="inputs">
+                    <input type="number" placeholder="a" id="quad-a">
+                    <input type="number" placeholder="b" id="quad-b">
+                    <input type="number" placeholder="c" id="quad-c">
+                    <button class="calc-btn" onclick="calcQuadratic()">Решить</button>
+                </div>
+                <div class="result" id="quad-result"></div>
+            </div>
+
+            <div class="formula-card">
+                <h3>📈 Степень числа</h3>
+                <p class="formula-text">aⁿ</p>
+                <div class="inputs">
+                    <input type="number" placeholder="a" id="pow-a">
+                    <input type="number" placeholder="n" id="pow-n">
+                    <button class="calc-btn" onclick="calcPower()">Вычислить</button>
+                </div>
+                <div class="result" id="pow-result"></div>
+            </div>
+
+            <div class="formula-card">
+                <h3>🔢 Факториал</h3>
+                <p class="formula-text">n!</p>
+                <div class="inputs">
+                    <input type="number" placeholder="n" id="fact-n">
+                    <button class="calc-btn" onclick="calcFactorial()">Вычислить</button>
+                </div>
+                <div class="result" id="fact-result"></div>
+            </div>
+        </div>
+
+        <!-- Тригонометрия -->
+        <div class="formulas-section" id="trigonometry">
+            <div class="formula-card">
+                <h3>📐 Синус</h3>
+                <p class="formula-text">sin(x)</p>
+                <div class="inputs">
+                    <input type="number" placeholder="Угол в градусах" id="sin-x">
+                    <button class="calc-btn" onclick="calcSin()">Вычислить</button>
+                </div>
+                <div class="result" id="sin-result"></div>
+            </div>
+
+            <div class="formula-card">
+                <h3>📐 Косинус</h3>
+                <p class="formula-text">cos(x)</p>
+                <div class="inputs">
+                    <input type="number" placeholder="Угол в градусах" id="cos-x">
+                    <button class="calc-btn" onclick="calcCos()">Вычислить</button>
+                </div>
+                <div class="result" id="cos-result"></div>
+            </div>
+
+            <div class="formula-card">
+                <h3>📐 Тангенс</h3>
+                <p class="formula-text">tan(x)</p>
+                <div class="inputs">
+                    <input type="number" placeholder="Угол в градусах" id="tan-x">
+                    <button class="calc-btn" onclick="calcTan()">Вычислить</button>
+                </div>
+                <div class="result" id="tan-result"></div>
+            </div>
+        </div>
+
+        <!-- Калькулятор -->
+        <div class="formulas-section" id="calculator">
+            <div class="formula-card">
+                <h3>🧮 Универсальный калькулятор</h3>
+                <p class="formula-text">Введи выражение</p>
+                <div class="inputs">
+                    <input type="text" placeholder="Например: 2+2*2" id="calc-expr">
+                    <button class="calc-btn" onclick="calcExpression()">Вычислить</button>
+                </div>
+                <div class="result" id="calc-result"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Telegram Web App
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        // Переключение категорий
+        function showCategory(cat) {
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            document.querySelectorAll('.formulas-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(cat).classList.add('active');
+        }
+
+        // Геометрия
+        function calcTriangle() {
+            const a = parseFloat(document.getElementById('tri-a').value);
+            const h = parseFloat(document.getElementById('tri-h').value);
+            if (isNaN(a) || isNaN(h)) {
+                document.getElementById('tri-result').textContent = '❌ Введи все значения';
+                return;
+            }
+            const result = (a * h) / 2;
+            document.getElementById('tri-result').textContent = `✅ Площадь: ${result.toFixed(2)}`;
+        }
+
+        function calcCircle() {
+            const r = parseFloat(document.getElementById('circle-r').value);
+            if (isNaN(r)) {
+                document.getElementById('circle-result').textContent = '❌ Введи радиус';
+                return;
+            }
+            const result = Math.PI * r * r;
+            document.getElementById('circle-result').textContent = `✅ Площадь: ${result.toFixed(2)}`;
+        }
+
+        function calcPythagoras() {
+            const a = parseFloat(document.getElementById('pyth-a').value);
+            const b = parseFloat(document.getElementById('pyth-b').value);
+            if (isNaN(a) || isNaN(b)) {
+                document.getElementById('pyth-result').textContent = '❌ Введи оба катета';
+                return;
+            }
+            const result = Math.sqrt(a*a + b*b);
+            document.getElementById('pyth-result').textContent = `✅ Гипотенуза: ${result.toFixed(2)}`;
+        }
+
+        // Алгебра
+        function calcQuadratic() {
+            const a = parseFloat(document.getElementById('quad-a').value);
+            const b = parseFloat(document.getElementById('quad-b').value);
+            const c = parseFloat(document.getElementById('quad-c').value);
+            if (isNaN(a) || isNaN(b) || isNaN(c)) {
+                document.getElementById('quad-result').textContent = '❌ Введи все коэффициенты';
+                return;
+            }
+            const d = b*b - 4*a*c;
+            if (d < 0) {
+                document.getElementById('quad-result').textContent = '❌ Нет действительных корней';
+                return;
+            }
+            const x1 = (-b + Math.sqrt(d)) / (2*a);
+            const x2 = (-b - Math.sqrt(d)) / (2*a);
+            document.getElementById('quad-result').textContent = `✅ x₁ = ${x1.toFixed(2)}, x₂ = ${x2.toFixed(2)}`;
+        }
+
+        function calcPower() {
+            const a = parseFloat(document.getElementById('pow-a').value);
+            const n = parseFloat(document.getElementById('pow-n').value);
+            if (isNaN(a) || isNaN(n)) {
+                document.getElementById('pow-result').textContent = '❌ Введи все значения';
+                return;
+            }
+            const result = Math.pow(a, n);
+            document.getElementById('pow-result').textContent = `✅ Результат: ${result.toFixed(2)}`;
+        }
+
+        function calcFactorial() {
+            const n = parseInt(document.getElementById('fact-n').value);
+            if (isNaN(n) || n < 0) {
+                document.getElementById('fact-result').textContent = '❌ Введи неотрицательное число';
+                return;
+            }
+            if (n > 170) {
+                document.getElementById('fact-result').textContent = '❌ Число слишком большое';
+                return;
+            }
+            let result = 1;
+            for (let i = 2; i <= n; i++) {
+                result *= i;
+            }
+            document.getElementById('fact-result').textContent = `✅ ${n}! = ${result.toExponential(2)}`;
+        }
+
+        // Тригонометрия
+        function calcSin() {
+            const x = parseFloat(document.getElementById('sin-x').value);
+            if (isNaN(x)) {
+                document.getElementById('sin-result').textContent = '❌ Введи угол';
+                return;
+            }
+            const rad = x * Math.PI / 180;
+            const result = Math.sin(rad);
+            document.getElementById('sin-result').textContent = `✅ sin(${x}°) = ${result.toFixed(4)}`;
+        }
+
+        function calcCos() {
+            const x = parseFloat(document.getElementById('cos-x').value);
+            if (isNaN(x)) {
+                document.getElementById('cos-result').textContent = '❌ Введи угол';
+                return;
+            }
+            const rad = x * Math.PI / 180;
+            const result = Math.cos(rad);
+            document.getElementById('cos-result').textContent = `✅ cos(${x}°) = ${result.toFixed(4)}`;
+        }
+
+        function calcTan() {
+            const x = parseFloat(document.getElementById('tan-x').value);
+            if (isNaN(x)) {
+                document.getElementById('tan-result').textContent = '❌ Введи угол';
+                return;
+            }
+            const rad = x * Math.PI / 180;
+            const result = Math.tan(rad);
+            document.getElementById('tan-result').textContent = `✅ tan(${x}°) = ${result.toFixed(4)}`;
+        }
+
+        // Калькулятор
+        function calcExpression() {
+            const expr = document.getElementById('calc-expr').value;
+            if (!expr) {
+                document.getElementById('calc-result').textContent = '❌ Введи выражение';
+                return;
+            }
+            try {
+                const result = eval(expr);
+                document.getElementById('calc-result').textContent = `✅ Результат: ${result}`;
+            } catch (e) {
+                document.getElementById('calc-result').textContent = '❌ Ошибка в выражении';
+            }
+        }
+    </script>
+</body>
+</html>
